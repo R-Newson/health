@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pareto Chart</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            margin: 0;
+            color: #6a6f8c;
+            background: #c8c8c8;
+            font: 600 16px/18px 'Open Sans', sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 12px 15px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
+            border-radius: 10px;
+        }
+        .group {
+            margin-bottom: 15px;
+        }
+        .label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .input, .button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .button {
+            background-color: #1161ee;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0d47a1;
+        }
+        .chart-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="group">
+                <label for="complaint_type" class="label">Complaint Types (comma-separated)</label>
+                {{ form.complaint_type }}
+            </div>
+            <div class="group">
+                <label for="number_of_complaints" class="label">Number of Complaints (comma-separated)</label>
+                {{ form.number_of_complaints }}
+            </div>
+            <div class="group">
+                <input type="submit" class="button" value="Generate Chart">
+            </div>
+        </form>
+        {% if chart %}
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart }}" alt="Pareto Chart">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
